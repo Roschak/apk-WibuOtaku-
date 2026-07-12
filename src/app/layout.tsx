@@ -10,17 +10,17 @@ import '@/app/globals.css';
 import { SiteNav } from '@/components/site-nav';
 
 export const metadata: Metadata = {
-  title: 'WibuOtaku',
-  description: 'Anime, manga, dan light novel tracker untuk pengguna Indonesia.',
+    title: 'WibuOtaku',
+    description: 'Anime, manga, dan light novel tracker untuk pengguna Indonesia.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="id">
-      <body className="text-white antialiased">
-        <SiteNav />
-        <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="id">
+            <body className="text-white antialiased">
+                <SiteNav />
+                <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
+            </body>
+        </html>
+    );
 }
