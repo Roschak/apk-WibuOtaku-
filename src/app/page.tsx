@@ -2,7 +2,9 @@ import Link from 'next/link';
 
 import { ContentCard } from '@/components/content-card';
 import { Pill } from '@/components/pill';
+import { Reveal } from '@/components/reveal';
 import { Surface } from '@/components/surface';
+import { LiveCountdownSection } from '@/components/live-countdown';
 import {
     animeCatalog,
     dashboardStats,
@@ -22,7 +24,7 @@ function MetricTile({ label, value, note, tone }: { label: string; value: string
                 <p className="font-display text-4xl font-bold text-white">{value}</p>
                 <p className="text-sm leading-7 text-white/66">{note}</p>
                 <span
-                    className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${tone === 'gold'
+                    className={`inline-flex animate-scale-in rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${tone === 'gold'
                         ? 'border-amber-200/20 bg-amber-200/10 text-amber-50'
                         : tone === 'blue'
                             ? 'border-sky-200/20 bg-sky-200/10 text-sky-50'
@@ -42,6 +44,7 @@ export default function HomePage() {
     return (
         <div className="space-y-8 pb-6">
             <section className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
+                <Reveal animation="scale-in">
                 <Surface className="relative overflow-hidden">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(247,195,95,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_32%)]" />
                     <div className="relative z-10 flex h-full flex-col justify-between gap-10">
@@ -79,7 +82,9 @@ export default function HomePage() {
                         </div>
                     </div>
                 </Surface>
+                </Reveal>
 
+                <Reveal animation="scale-in" delay={100}>
                 <Surface className="flex flex-col justify-between gap-6">
                     <div className="space-y-4">
                         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/50">Scrape pipeline</p>
@@ -105,29 +110,40 @@ export default function HomePage() {
                         ))}
                     </div>
                 </Surface>
+                </Reveal>
             </section>
 
+            <Reveal>
             <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {dashboardStats.map((stat) => (
                     <MetricTile key={stat.label} {...stat} />
                 ))}
             </section>
+            </Reveal>
+
+            <LiveCountdownSection />
 
             <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
                 <div className="space-y-6">
-                    <div className="grid gap-4 lg:grid-cols-3">
-                        {animeCatalog.map((item) => (
-                            <ContentCard key={item.slug} {...item} href={`/anime/${item.slug}`} />
+                    <div className="grid gap-4 lg:grid-cols-3 [&>*]:opacity-0 [&>*]:animate-fade-in-up">
+                        {animeCatalog.map((item, i) => (
+                            <div key={item.slug} style={{ animationDelay: `${i * 60}ms` }}>
+                                <ContentCard {...item} href={`/anime/${item.slug}`} />
+                            </div>
                         ))}
                     </div>
-                    <div className="grid gap-4 lg:grid-cols-3">
-                        {mangaCatalog.map((item) => (
-                            <ContentCard key={item.slug} {...item} href={`/manga/${item.slug}`} />
+                    <div className="grid gap-4 lg:grid-cols-3 [&>*]:opacity-0 [&>*]:animate-fade-in-up">
+                        {mangaCatalog.map((item, i) => (
+                            <div key={item.slug} style={{ animationDelay: `${i * 60}ms` }}>
+                                <ContentCard {...item} href={`/manga/${item.slug}`} />
+                            </div>
                         ))}
                     </div>
-                    <div className="grid gap-4 lg:grid-cols-3">
-                        {lightNovelCatalog.map((item) => (
-                            <ContentCard key={item.slug} {...item} href={`/light-novel/${item.slug}`} />
+                    <div className="grid gap-4 lg:grid-cols-3 [&>*]:opacity-0 [&>*]:animate-fade-in-up">
+                        {lightNovelCatalog.map((item, i) => (
+                            <div key={item.slug} style={{ animationDelay: `${i * 60}ms` }}>
+                                <ContentCard {...item} href={`/light-novel/${item.slug}`} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -145,23 +161,27 @@ export default function HomePage() {
                         </div>
                         <div className="mt-5 space-y-3">
                             {notificationFeed.map((item) => (
-                                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/18 p-4">
+                                <Reveal key={item.title}>
+                                <div className="rounded-2xl border border-white/10 bg-black/18 p-4 transition-all duration-200 hover:border-white/15 hover:bg-black/25">
                                     <div className="flex items-start justify-between gap-3">
                                         <p className="font-semibold text-white">{item.title}</p>
                                         <Pill tone={item.tone}>{item.time}</Pill>
                                     </div>
                                     <p className="mt-2 text-sm leading-7 text-white/68">{item.detail}</p>
                                 </div>
+                                </Reveal>
                             ))}
                         </div>
                     </Surface>
 
+                    <Reveal>
                     <Surface>
                         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/50">Roadmap</p>
                         <h3 className="mt-2 font-display text-2xl font-semibold text-white">Progress bertahap tanpa lompat terlalu jauh.</h3>
                         <div className="mt-5 space-y-3">
                             {roadmap.map((item) => (
-                                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/18 p-4">
+                                <Reveal key={item.title}>
+                                <div className="rounded-2xl border border-white/10 bg-black/18 p-4 transition-all duration-200 hover:border-white/15 hover:bg-black/25">
                                     <div className="flex items-start justify-between gap-3">
                                         <div>
                                             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/46">
@@ -173,13 +193,16 @@ export default function HomePage() {
                                     </div>
                                     <p className="mt-3 text-sm leading-7 text-white/68">{item.note}</p>
                                 </div>
+                                </Reveal>
                             ))}
                         </div>
                     </Surface>
+                    </Reveal>
                 </div>
             </section>
 
             <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+                <Reveal>
                 <Surface>
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/50">Kalender singkat</p>
                     <h3 className="mt-2 font-display text-2xl font-semibold text-white">Ritme rilis mingguan yang gampang dipindai.</h3>
@@ -208,7 +231,9 @@ export default function HomePage() {
                         ))}
                     </div>
                 </Surface>
+                </Reveal>
 
+                <Reveal delay={100}>
                 <Surface>
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/50">Data model ready</p>
                     <h3 className="mt-2 font-display text-2xl font-semibold text-white">Struktur konten yang cocok untuk web, API, dan scraper.</h3>
@@ -226,6 +251,7 @@ export default function HomePage() {
                         ))}
                     </div>
                 </Surface>
+                </Reveal>
             </section>
         </div>
     );

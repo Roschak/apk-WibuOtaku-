@@ -8,7 +8,7 @@ type SurfaceProps = {
 export function Surface({ children, className = '' }: SurfaceProps) {
     return (
         <section
-            className={`rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-halo backdrop-blur-xl ${className}`}
+            className={`group/surface rounded-[28px] border border-surface bg-surface p-6 shadow-halo backdrop-blur-xl transition-all duration-300 hover:border-surface-hover hover:bg-surface-hover ${className}`}
         >
             {children}
         </section>

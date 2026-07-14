@@ -1,0 +1,70 @@
+name: Scrape LN Publishers
+
+on:
+  schedule:
+    # Jalan tiap hari Sabtu jam 08:00 WIB (00:00 UTC)
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+    # Bisa di-trigger manual dari GitHub UI
+
+jobs:
+  scrape:
+    name: Scrape Light Novel Data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scrape publisher catalogs
+        run: node scripts/scrape-publishers.mjs
+        continue-on-error: true
+
+      - name: Normalize scraped data
+        run: node scripts/normalize-ln.mjs
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          if [ -n "$(git status --porcelain data/)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request with updated data
+        if: steps.git-check.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(data): update light novel catalog from scraping'
+          title: '📚 Update data Light Novel dari scraping publisher'
+          body: |
+            ## 📚 Update Data Light Novel
+
+            Data scraping otomatis dari publisher LN Indonesia telah menghasilkan perubahan.
+
+            ### Sumber
+            - Elex Media Komputindo
+            - Penerbit Haru
+            - M&C Gramedia
+
+            ### Yang berubah
+            - `data/scraped/` — data mentah hasil scraping
+            - `data/scraped/ln-catalog.json` — hasil normalisasi siap pakai
+
+            > ⚠️ Review data sebelum merge untuk memastikan tidak ada kesalahan matching.
+          branch: update-ln-data
+          base: main
+          labels: |
+            data
+            automated

@@ -2,24 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --background: #08111f;
+/* ── Tema: Dark (default) ── */
+:root,
+html[data-theme="dark"] {
+    --bg: #08111f;
+    --bg-elevated: #0b1220;
+    --bg-gradient-end: #050814;
     --foreground: #f7f4eb;
-    --panel: rgba(9, 15, 29, 0.72);
-    --line: rgba(255, 255, 255, 0.09);
+    --foreground-secondary: rgba(226, 232, 240, 0.74);
+    --panel-bg: rgba(9, 15, 29, 0.72);
+    --panel-border: rgba(255, 255, 255, 0.09);
+    --panel-hover-border: rgba(255, 255, 255, 0.14);
+    --panel-hover-bg: rgba(255, 255, 255, 0.065);
+    --nav-bg: rgba(8, 17, 31, 0.82);
+    --nav-border: rgba(255, 255, 255, 0.10);
+    --card-bg: rgba(0, 0, 0, 0.18);
+    --card-hover-bg: rgba(0, 0, 0, 0.25);
+    --tag-bg: rgba(255, 255, 255, 0.05);
+    --tag-border: rgba(255, 255, 255, 0.10);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.68);
+    --text-tertiary: rgba(255, 255, 255, 0.52);
+    --text-muted: rgba(255, 255, 255, 0.46);
+    --text-low: rgba(255, 255, 255, 0.38);
+    --btn-secondary-bg: rgba(255, 255, 255, 0.08);
+    --btn-secondary-border: rgba(255, 255, 255, 0.12);
+    --shadow-halo: 0 24px 80px rgba(0, 0, 0, 0.32);
+    --selection-bg: rgba(247, 195, 95, 0.28);
+    --shimmer-from: rgba(255, 255, 255, 0.04);
+    --shimmer-to: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Tema: Light ── */
+html[data-theme="light"] {
+    --bg: #f6f4f0;
+    --bg-elevated: #f0ede8;
+    --bg-gradient-end: #ece8e2;
+    --foreground: #1a1a2e;
+    --foreground-secondary: rgba(30, 30, 46, 0.72);
+    --panel-bg: rgba(255, 255, 255, 0.80);
+    --panel-border: rgba(0, 0, 0, 0.08);
+    --panel-hover-border: rgba(0, 0, 0, 0.14);
+    --panel-hover-bg: rgba(255, 255, 255, 0.95);
+    --nav-bg: rgba(246, 244, 240, 0.88);
+    --nav-border: rgba(0, 0, 0, 0.08);
+    --card-bg: rgba(0, 0, 0, 0.04);
+    --card-hover-bg: rgba(0, 0, 0, 0.06);
+    --tag-bg: rgba(0, 0, 0, 0.03);
+    --tag-border: rgba(0, 0, 0, 0.08);
+    --text-primary: #1a1a2e;
+    --text-secondary: rgba(30, 30, 46, 0.70);
+    --text-tertiary: rgba(30, 30, 46, 0.54);
+    --text-muted: rgba(30, 30, 46, 0.48);
+    --text-low: rgba(30, 30, 46, 0.38);
+    --btn-secondary-bg: rgba(0, 0, 0, 0.05);
+    --btn-secondary-border: rgba(0, 0, 0, 0.10);
+    --shadow-halo: 0 24px 80px rgba(0, 0, 0, 0.08);
+    --selection-bg: rgba(247, 195, 95, 0.40);
+    --shimmer-from: rgba(0, 0, 0, 0.03);
+    --shimmer-to: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Accent Colors ── */
+/* Gold (default) */
+html[data-accent="gold"] {
     --accent: #f7c35f;
     --accent-soft: rgba(247, 195, 95, 0.16);
-    --muted: rgba(226, 232, 240, 0.74);
-    --font-display: 'Space Grotesk';
-    --font-body: 'IBM Plex Sans';
+    --accent-light: #fce8b0;
+    --accent-dark: #d49f2e;
+    --accent-glow: rgba(247, 195, 95, 0.12);
+    --accent-glow-strong: rgba(247, 195, 95, 0.35);
 }
+html[data-accent="blue"] {
+    --accent: #63b3ed;
+    --accent-soft: rgba(99, 179, 237, 0.16);
+    --accent-light: #bee3f8;
+    --accent-dark: #3182ce;
+    --accent-glow: rgba(99, 179, 237, 0.12);
+    --accent-glow-strong: rgba(99, 179, 237, 0.35);
+}
+html[data-accent="rose"] {
+    --accent: #f472b6;
+    --accent-soft: rgba(244, 114, 182, 0.16);
+    --accent-light: #fbb6ce;
+    --accent-dark: #d53f8c;
+    --accent-glow: rgba(244, 114, 182, 0.12);
+    --accent-glow-strong: rgba(244, 114, 182, 0.35);
+}
+html[data-accent="emerald"] {
+    --accent: #34d399;
+    --accent-soft: rgba(52, 211, 153, 0.16);
+    --accent-light: #a7f3d0;
+    --accent-dark: #059669;
+    --accent-glow: rgba(52, 211, 153, 0.12);
+    --accent-glow-strong: rgba(52, 211, 153, 0.35);
+}
+html[data-accent="purple"] {
+    --accent: #a78bfa;
+    --accent-soft: rgba(167, 139, 250, 0.16);
+    --accent-light: #ddd6fe;
+    --accent-dark: #7c3aed;
+    --accent-glow: rgba(167, 139, 250, 0.12);
+    --accent-glow-strong: rgba(167, 139, 250, 0.35);
+}
+html[data-accent="cyan"] {
+    --accent: #22d3ee;
+    --accent-soft: rgba(34, 211, 238, 0.16);
+    --accent-light: #a5f3fc;
+    --accent-dark: #0891b2;
+    --accent-glow: rgba(34, 211, 238, 0.12);
+    --accent-glow-strong: rgba(34, 211, 238, 0.35);
+}
+html[data-accent="pink"] {
+    --accent: #f9a8d4;
+    --accent-soft: rgba(249, 168, 212, 0.16);
+    --accent-light: #fbcfe8;
+    --accent-dark: #db2777;
+    --accent-glow: rgba(249, 168, 212, 0.12);
+    --accent-glow-strong: rgba(249, 168, 212, 0.35);
+}
+html[data-accent="orange"] {
+    --accent: #fb923c;
+    --accent-soft: rgba(251, 146, 60, 0.16);
+    --accent-light: #fdba74;
+    --accent-dark: #ea580c;
+    --accent-glow: rgba(251, 146, 60, 0.12);
+    --accent-glow-strong: rgba(251, 146, 60, 0.35);
+}
+
+/* ── Base Styles ── */
 
 * {
     box-sizing: border-box;
 }
 
 html {
-    background: var(--background);
+    background: var(--bg);
+    color-scheme: dark;
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
 }
 
 body {
@@ -27,12 +150,13 @@ body {
     min-height: 100vh;
     color: var(--foreground);
     background:
-        radial-gradient(circle at top left, rgba(247, 195, 95, 0.16), transparent 28%),
-        radial-gradient(circle at top right, rgba(99, 179, 237, 0.12), transparent 26%),
-        radial-gradient(circle at 65% 10%, rgba(244, 114, 182, 0.08), transparent 18%),
-        linear-gradient(180deg, #0b1220 0%, #08111f 48%, #050814 100%);
+        radial-gradient(circle at top left, var(--accent-soft), transparent 28%),
+        radial-gradient(circle at top right, rgba(99, 179, 237, 0.10), transparent 26%),
+        radial-gradient(circle at 65% 10%, rgba(244, 114, 182, 0.06), transparent 18%),
+        linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 48%, var(--bg-gradient-end) 100%);
     background-attachment: fixed;
     font-family: var(--font-body), sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -41,10 +165,277 @@ a {
 }
 
 ::selection {
-    background: rgba(247, 195, 95, 0.28);
-    color: #fff;
+    background: var(--selection-bg);
+    color: var(--text-primary);
 }
 
 .text-balance {
     text-wrap: balance;
+}
+
+/* ── Animasi Kustom ── */
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(247, 195, 95, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(247, 195, 95, 0.35);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes border-dance {
+    0% { border-color: rgba(255, 255, 255, 0.08); }
+    50% { border-color: rgba(247, 195, 95, 0.25); }
+    100% { border-color: rgba(255, 255, 255, 0.08); }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out both;
+}
+
+.animate-fade-in {
+    animation: fade-in 0.4s ease-out both;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.35s ease-out both;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 25%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.04) 75%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+/* Stagger children — utility class dipakai oleh AnimatedList */
+.stagger-children > * {
+    opacity: 0;
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 480ms; }
+.stagger-children > *:nth-child(10) { animation-delay: 540ms; }
+.stagger-children > *:nth-child(11) { animation-delay: 600ms; }
+.stagger-children > *:nth-child(12) { animation-delay: 660ms; }
+
+/* ── CSS View Transitions API (progressive enhancement) ── */
+/* Chrome 126+, diabaikan browser lain */
+@view-transition {
+    navigation: auto;
+}
+
+/* Main content — animasi masuk/keluar antar halaman */
+main {
+    view-transition-name: page-main;
+}
+
+/* Nav header — persist antar navigasi (tidak perlu animasi ulang) */
+.site-header {
+    view-transition-name: site-header;
+}
+
+/* Animasi halaman keluar */
+@keyframes vt-fade-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Animasi halaman masuk */
+@keyframes vt-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Halaman keluar: fade out + geser ke atas */
+::view-transition-old(page-main) {
+    animation: 0.2s ease-in both vt-fade-out;
+}
+
+/* Halaman baru masuk: fade in + geser dari bawah */
+::view-transition-new(page-main) {
+    animation: 0.35s ease-out both vt-fade-in-up;
+}
+
+/* Nav header — tidak usah dianimasi (diam di tempat) */
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+    animation: none;
+}
+
+/* Fallback untuk browser yang belum support View Transitions */
+@keyframes page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@supports not (view-transition-name: page-main) {
+    .page-enter {
+        animation: page-enter 0.4s ease-out both;
+    }
+}
+
+/* ── Theme-aware utility classes ── */
+@layer utilities {
+    .text-ink { color: var(--foreground); }
+    .text-ink-secondary { color: var(--text-secondary); }
+    .text-ink-tertiary { color: var(--text-tertiary); }
+    .text-ink-muted { color: var(--text-muted); }
+    .text-ink-low { color: var(--text-low); }
+
+    .bg-surface { background: var(--panel-bg); }
+    .bg-surface-hover { background: var(--panel-hover-bg); }
+    .border-surface { border-color: var(--panel-border); }
+    .border-surface-hover { border-color: var(--panel-hover-border); }
+
+    .bg-card { background: var(--card-bg); }
+    .bg-card-hover { background: var(--card-hover-bg); }
+    .bg-tag { background: var(--tag-bg); }
+    .border-tag { border-color: var(--tag-border); }
+
+    .bg-nav { background: var(--nav-bg); }
+    .border-nav { border-color: var(--nav-border); }
+
+    .shadow-halo-theme { box-shadow: var(--shadow-halo); }
+
+    .text-accent { color: var(--accent); }
+    .text-accent-light { color: var(--accent-light); }
+    .bg-accent { background: var(--accent); }
+    .bg-accent-soft { background: var(--accent-soft); }
+    .border-accent { border-color: var(--accent); }
+    .border-accent-soft { border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+}
+
+/* ── Accent-aware CSS animations ── */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+    50% { box-shadow: 0 0 20px var(--accent-glow-strong); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.animate-shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--shimmer-from) 25%,
+        var(--shimmer-to) 50%,
+        var(--shimmer-from) 75%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+/* ── Smooth transitions for theme switches (targeted, not global) ── */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Respect user motion preferences ── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

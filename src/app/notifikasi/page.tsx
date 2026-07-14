@@ -1,5 +1,7 @@
+import { AnimatedList } from '@/components/animated-list';
 import { PageHeader } from '@/components/page-header';
 import { Pill } from '@/components/pill';
+import { Reveal } from '@/components/reveal';
 import { Surface } from '@/components/surface';
 import { notificationFeed } from '@/lib/site-data';
 
@@ -20,6 +22,7 @@ export default function NotificationsPage() {
                 description="Semua alert ditulis ringkas supaya tidak mengganggu, tapi tetap cukup jelas untuk langsung ditindaklanjuti."
             />
 
+            <Reveal>
             <Surface>
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     {[
@@ -42,14 +45,15 @@ export default function NotificationsPage() {
                     ))}
                 </div>
 
-                <div className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-white/64">
+                <div className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-white/64 animate-shimmer">
                     Notifikasi difokuskan pada update yang punya dampak langsung ke daftar tontonan, bacaan, dan koleksi.
                 </div>
 
                 <div className="mt-6 space-y-3">
+                <AnimatedList>
                 <div className="space-y-3">
                     {notificationFeed.map((item) => (
-                        <div key={item.title} className="rounded-2xl border border-white/10 bg-black/18 p-4">
+                        <div key={item.title} className="rounded-2xl border border-white/10 bg-black/18 p-4 transition-all duration-200 hover:border-white/15 hover:-translate-y-0.5 hover:bg-black/25">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
                                     <p className="font-semibold text-white">{item.title}</p>
@@ -61,8 +65,10 @@ export default function NotificationsPage() {
                         </div>
                     ))}
                 </div>
+                </AnimatedList>
                 </div>
             </Surface>
+            </Reveal>
         </div>
     );
 }

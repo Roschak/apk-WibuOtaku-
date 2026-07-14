@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">WibuOtaku</string>
+    <string name="title_activity_main">WibuOtaku</string>
+    <string name="package_name">com.wibuotaku.app</string>
+    <string name="custom_url_scheme">com.wibuotaku.app</string>
+</resources>

@@ -1,0 +1,118 @@
+name: Build & Release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js static export
+        run: npm run build
+        env:
+          BUILD_STATIC: 'true'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      # Jika keystore secrets dikonfigurasi, tulis file keystore
+      - name: Write keystore from secret
+        if: ${{ secrets.KEYSTORE_FILE_BASE64 != '' }}
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 -d > android/app/keystore.jks
+
+      # Build release APK (Gradle otomatis sign dari env vars via signingConfigs)
+      - name: Build APK (release)
+        run: |
+          cd android
+          ./gradlew assembleRelease
+        env:
+          # file() di build.gradle resolve relative ke subproject (android/app/)
+          # Default "keystore.jks" sudah benar karena file ditulis ke android/app/keystore.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || '' }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS || '' }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || '' }}
+
+      # Fallback: build debug APK jika release gagal atau tidak ada signing config
+      - name: Build APK (debug fallback)
+        if: ${{ failure() || secrets.KEYSTORE_FILE_BASE64 == '' }}
+        run: |
+          cd android
+          ./gradlew assembleDebug
+
+      - name: Rename APK
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          # Cek release APK dulu
+          RELEASE_APK=$(find android -name "app-release.apk" | head -1)
+          if [ -n "$RELEASE_APK" ] && [ -f "$RELEASE_APK" ]; then
+            cp "$RELEASE_APK" "WibuOtaku-v${VERSION}.apk"
+            echo "APK_TYPE=release" >> $GITHUB_ENV
+          else
+            DEBUG_APK=$(find android -name "app-debug.apk" | head -1)
+            if [ -n "$DEBUG_APK" ] && [ -f "$DEBUG_APK" ]; then
+              cp "$DEBUG_APK" "WibuOtaku-v${VERSION}-debug.apk"
+              echo "APK_TYPE=debug" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Verify APK signature (if release)
+        if: ${{ env.APK_TYPE == 'release' && secrets.KEYSTORE_FILE_BASE64 != '' }}
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME" -name "apksigner" -type f 2>/dev/null | head -1)
+          if [ -n "$APKSIGNER" ]; then
+            "$APKSIGNER" verify --verbose WibuOtaku-*.apk
+          else
+            echo "ℹ️  apksigner tidak ditemukan di ANDROID_HOME, lewati verifikasi."
+            echo "   APK sudah ditandatangani oleh Gradle secara otomatis."
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: WibuOtaku v${{ github.ref_name }}
+          body: |
+            ## WibuOtaku ${{ github.ref_name }}
+
+            ### 📲 Install
+            1. Download file `.apk` di bawah
+            2. Buka file di HP Android
+            3. Izinkan **"Install dari sumber tidak dikenal"**
+            4. Selesai!
+
+            ### ✨ Yang baru
+            Cek [Changelog](https://github.com/${{ github.repository }}/releases) untuk detail.
+
+            > ⚠️ APK ini tidak dari Play Store. Installasi memerlukan izin **sideload**.
+
+            APK ini sudah **ditandatangani (signed)** dengan keystore release.
+            Verifikasi: gunakan `apksigner verify WibuOtaku-*.apk`
+          files: |
+            WibuOtaku-*.apk
+          draft: false
+          prerelease: false

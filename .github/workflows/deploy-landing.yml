@@ -1,0 +1,47 @@
+name: 🚀 Deploy Landing Page
+
+on:
+  push:
+    branches: [main]
+    # Hanya trigger jika ada perubahan di folder docs/ atau workflow ini sendiri
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy-landing.yml'
+  # Bisa di-trigger manual dari GitHub UI
+  workflow_dispatch:
+
+# Izinkan satu deployment berjalan dalam satu waktu
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    # Izin yang dibutuhkan untuk GitHub Pages deployment
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    # Environment khusus untuk GitHub Pages (url akan terisi otomatis)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # upload-pages-artifact akan mengompres folder docs/ sebagai artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+      # deploy-pages membaca artifact dan deploy ke GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

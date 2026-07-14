@@ -31,6 +31,18 @@ export type FeedItem = {
     tone: Tone;
 };
 
+export type CharacterInfo = {
+    name: string;
+    image?: string;
+    voiceActor?: string;
+    role?: string;
+};
+
+export type NextEpisode = {
+    episode: number;
+    airingAt: number;
+};
+
 export type LibraryItem = {
     title: string;
     kind: string;
@@ -59,7 +71,13 @@ export type AnimeDetail = {
     detailFacts: { label: string; value: string }[];
     highlights: string[];
     cast: string[];
+    characters: CharacterInfo[];
     related: string[];
+    trailerUrl?: string;
+    nextEpisode?: NextEpisode;
+    coverColor?: string;
+    score?: number;
+    popularity?: number;
 };
 
 export type MangaDetail = {
@@ -80,6 +98,9 @@ export type MangaDetail = {
     detailFacts: { label: string; value: string }[];
     releaseNotes: string[];
     related: string[];
+    score?: number;
+    popularity?: number;
+    coverColor?: string;
 };
 
 export type LightNovelDetail = {
@@ -105,6 +126,8 @@ export type LightNovelDetail = {
     coverNotes: string[];
     releaseNotes: string[];
     related: string[];
+    coverJpUrl?: string;
+    coverIdUrl?: string;
 };
 
 export type SearchIndexItem = {
@@ -248,7 +271,16 @@ export const animeCatalog: AnimeDetail[] = [
         ],
         highlights: ['Countdown episode berikutnya', 'Karakter dan seiyuu', 'Jadwal tayang mingguan'],
         cast: ['Frieren', 'Fern', 'Stark', 'Heiter'],
+        characters: [
+            { name: 'Frieren', voiceActor: 'Atsumi Tanezaki', role: 'Protagonist' },
+            { name: 'Fern', voiceActor: 'Kana Ichinose', role: 'Main' },
+            { name: 'Stark', voiceActor: 'Chiaki Kobayashi', role: 'Main' },
+            { name: 'Heiter', voiceActor: 'Nobuhiko Okamoto', role: 'Supporting' },
+        ],
         related: ['Kalender simulcast', 'Wishlist pribadi', 'Rekomendasi seasonal'],
+        nextEpisode: { episode: 16, airingAt: Math.floor(Date.now() / 1000) + 172800 },
+        coverColor: '#a8d8ea',
+        score: 89,
     },
     {
         slug: 'dandadan',
@@ -273,7 +305,15 @@ export const animeCatalog: AnimeDetail[] = [
         ],
         highlights: ['Notifikasi episode perdana', 'Feed teaser dan trailer', 'Tracker simpan otomatis'],
         cast: ['Momo', 'Okarun', 'Turbo Granny', 'Seiko'],
+        characters: [
+            { name: 'Momo Ayase', voiceActor: 'Shion Wakayama', role: 'Protagonist' },
+            { name: 'Okarun', voiceActor: 'Natsuki Hanae', role: 'Protagonist' },
+            { name: 'Turbo Granny', voiceActor: 'Mayumi Tanaka', role: 'Antagonist' },
+            { name: 'Seiko', voiceActor: 'Kazuhiro Yamaji', role: 'Supporting' },
+        ],
         related: ['Akan tayang', 'Pin cepat', 'Wishlist anti lupa'],
+        nextEpisode: { episode: 1, airingAt: Math.floor(Date.now() / 1000) + 345600 },
+        coverColor: '#ff6b6b',
     },
     {
         slug: 'kaiju-no-8',
@@ -298,6 +338,12 @@ export const animeCatalog: AnimeDetail[] = [
         ],
         highlights: ['Binge list', 'Review pribadi', 'History tontonan'],
         cast: ['Kafka', 'Kikoru', 'Mina', 'Soshiro'],
+        characters: [
+            { name: 'Kafka Hibino', voiceActor: 'Masaya Fukunishi', role: 'Protagonist' },
+            { name: 'Kikoru Shinomiya', voiceActor: 'Asami Seto', role: 'Main' },
+            { name: 'Mina Ashiro', voiceActor: 'Wakana Yamazaki', role: 'Main' },
+            { name: 'Soshiro Hoshina', voiceActor: 'Katsuhiro Suzuki', role: 'Main' },
+        ],
         related: ['Koleksi selesai', 'Rekap season', 'Favorit personal'],
     },
 ];
